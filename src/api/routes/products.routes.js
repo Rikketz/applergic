@@ -1,5 +1,5 @@
 const express = require("express");
-const {getProducts, postProduct} = require("../controllers/products.controllers")
+const {getProducts, postProduct, putProduct, deleteProduct} = require("../controllers/products.controllers")
 
 const router = express.Router();
 
@@ -8,8 +8,8 @@ router.get("/", getProducts)
 
 router.post("/add", postProduct)
 
-// comidaRoutes.put("/:id", putComida)
+router.put("/:id", putProduct)
 
-// comidaRoutes.delete("/:id",deleteComida)
+router.delete("/delete/:id", deleteProduct)
 
 module.exports = router;
