@@ -31,6 +31,7 @@ const postProduct = async (req, res) => {
     return res.status(500).json({ message: "Error interno del servidor al crear el producto", error: error.message });
   }
 };
+
 const putProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -56,5 +57,6 @@ const deleteProduct = async (req, res) => {
       
   }
 }
+
 
 module.exports = { getProducts, postProduct, putProduct, deleteProduct};
