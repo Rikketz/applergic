@@ -9,18 +9,22 @@ const getProducts = async (req, res) => {
   }
 };
 
-// const getComidasById = async (req, res) => {
-//   try {
-//     const { id } = req.params;
-//     const comida = await Comida.findById(id);
-//     if (!comida) {
-//       return res.status(404).json({ message: "no tenemos comidas con ese id" });
-//     }
-//     return res.status(200).json(comida);
-//   } catch (error) {
-//     return res.status(500).json(error);
-//   }
-// };
+const getProductsByCode = async (req, res) => {
+  try {
+    const { codigo } = req.params;
+    const product = await Producto.findOne({ codigo: parseInt(codigo) });
+    
+    if (!product) {
+      return res.status(404).json({ message: "Producto no encontrado con ese código" });
+    }
+
+    return res.status(200).json(product);
+  } catch (error) {
+    console.error("Error al buscar producto por código:", error);
+    return res.status(500).json({ message: "Error interno del servidor al buscar producto por código", error: error.message });
+  }
+};
+
 const postProduct = async (req, res) => {
   try {
     const newProduct = new Producto(req.body);
@@ -57,4 +61,4 @@ const deleteProduct = async (req, res) => {
   }
 }
 
-module.exports = { getProducts, postProduct, putProduct, deleteProduct};
+module.exports = { getProducts, postProduct, putProduct, deleteProduct, getProductsByCode};
