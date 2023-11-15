@@ -6,7 +6,7 @@ const productoSchema = new Schema(
   {
     nombre: { type: String, required: true },
     codigo: { type: Number, required: true },
-    foto: { type: String, required: false },
+    foto: {type: String, default: ""},
     ingredientes: [{type: String, required: true}],
     marca: {type: String, required: true },
     // alergenos: [{ type: Schema.Types.ObjectId, ref: 'alergeno' }],

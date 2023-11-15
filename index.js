@@ -13,9 +13,9 @@ app.use(express.json());
 connectDb();
 
 cloudinary.config({ 
-  cloud_name: process.env.CLOUD_NAME, 
-  api_key: process.env.API_KEY, 
-  api_secret: process.env.API_SECRET 
+  cloud_name: 'df7wwsyfn', 
+  api_key: '349872451519724', 
+  api_secret: 'U-sHimmqsnt-8upoDdkuHn9uZC4'
 });
 
 

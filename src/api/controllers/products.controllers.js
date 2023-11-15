@@ -25,33 +25,40 @@ const getProductsByCode = async (req, res) => {
   }
 };
 
-const postProduct = async (req, res) => {
+const postProduct = async (req, res) => {  
   try {
-    const newProduct = new Producto(req.body);
-    const createdProduct = await newProduct.save();
-    return res.status(201).json({ message: "Producto creado exitosamente", data: createdProduct });
-  } catch (error) {
-    console.error("Error al crear el producto:", error);
-    return res.status(500).json({ message: "Error interno del servidor al crear el producto", error: error.message });
-  }
-};
+      const body = req.body;  
+      const newProduct = new Producto (body); 
+      if(req.file.path){
+        newProduct.foto = req.file.path
+      }
+      const createdProduct = await newProduct.save();
 
-const putProduct = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const putProduct = new Producto(req.body);
-    putProduct._id = id;
-    const updatedProduct = await Producto.findByIdAndUpdate(id, putProduct, {
-      new: true,
-    });
-    return res.status(200).json(updatedProduct);
+      return res.json(createdProduct);
   } catch (error) {
-    return res.status(500).json(error);
+      return res.json(error);
   }
-};
+}
+
+const updateStudent = async (req, res) => {
+  try {
+      const {id} = req.params    
+      const productBody = new Producto (req.body);
+      productBody._id = id;
+      const updateProduct= await Producto.findByIdAndUpdate(id, productBody, {new:true});  //necesita 2 param, el id del doc a modificar
+      
+      if(!updateProduct){
+          return res.status(404).json({message:"estudiante no existe"})
+      }
+      return res.status(200).json(updateProduct)
+  } catch (error) {
+      
+  }
+}
+
 const deleteProduct = async (req, res) => {
   try {
-      const {id} = req.params;   //recibo el id por parametro
+      const {id} = req.params;   
       const deleteProducto = await Producto.findByIdAndDelete(id)
       if(!deleteProducto){
           return res.status(404).json({message:"estudiante no existe"})
@@ -62,6 +69,5 @@ const deleteProduct = async (req, res) => {
   }
 }
 
-cecilia
-module.exports = { getProducts, postProduct, putProduct, deleteProduct, getProductsByCode};
+module.exports = { getProducts, postProduct, updateStudent, deleteProduct, getProductsByCode};
 
