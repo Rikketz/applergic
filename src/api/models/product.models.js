@@ -9,6 +9,7 @@ const productoSchema = new Schema(
     foto: { type: String, required: false },
     ingredientes: [{type: String, required: true}],
     marca: {type: String, required: true },
+    // alergenos: [{ type: Schema.Types.ObjectId, ref: 'alergeno' }],
   },
   {
     timestamps: true, // te genera una fecha de creación y de modificación automaticas
