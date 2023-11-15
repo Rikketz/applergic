@@ -1,16 +1,29 @@
 const express = require("express");
-const {connect} = require("./src/utils/database");
-const comidaRoutes = require("./src/api/routes/comida.routes")
+const { connectDb } = require("./src/utils/database");
+const productsRoutes = require("./src/api/routes/products.routes");
 
-const PORT = 5000;
-const app = express();
-connect();
+const env = require("dotenv")
+env.config()
 
+const cloudinary = require("cloudinary").v2
+const app = express() 
 app.use(express.json());
-app.use(express.urlencoded({extended:false}));
 
-app.use("/comidas", comidaRoutes)
+connectDb();
 
-app.listen(PORT, ()=> console.log(`listening in the port http://localhost:${PORT}`))
+cloudinary.config({ 
+  cloud_name: process.env.CLOUD_NAME, 
+  api_key: process.env.API_KEY, 
+  api_secret: process.env.API_SECRET 
+});
+
+
+app.use("/product", productsRoutes);
+
+const PORT = 5053;
+
+app.listen(PORT, () => {
+    console.log("escuchando por el puerto " + PORT);
+});
 
 

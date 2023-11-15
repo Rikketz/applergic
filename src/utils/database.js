@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 
-const DB_URL = "mongodb+srv://root:root@cluster0.imov6up.mongodb.net/prueba?retryWrites=true&w=majority";
+const DB_URL = "mongodb+srv://ceciliaarangio:ImD36nKx8JXs58L6@cluster0.4g316yu.mongodb.net/Applergic?retryWrites=true&w=majority";
 
-const connect = async() => {
+const connectDb = async() => {
     try {
         //intenta conectarte a la base de datos
         const db = await mongoose.connect(DB_URL);
@@ -15,4 +15,4 @@ const connect = async() => {
     }
 }
 
-module.exports = {connect};
+module.exports = {connectDb};
