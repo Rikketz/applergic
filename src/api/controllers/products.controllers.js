@@ -1,13 +1,72 @@
-const Producto = require("../models/product.models");
+const mongoose = require("mongoose");
+const Alergeno  = require('../models/alergenos.models');
+const Producto = require('../models/product.models');
 
-const getProducts = async (req, res) => {
+// Connect to MongoDB
+mongoose.connect('mongodb+srv://ceciliaarangio:ImD36nKx8JXs58L6@cluster0.4g316yu.mongodb.net/Applergic?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(error => console.error('Error connecting to MongoDB:', error));
+
+const cargarProducto = async (req, res) => {
   try {
-    const allProducts = await Producto.find();
-    return res.status(200).json(allProducts);
+    const { nombre, ingredientes, marca, codigo, foto } = req.body;
+
+    if (!Array.isArray(ingredientes)) {
+      return res.status(400).json({ error: "'ingredientes' debe ser un arreglo" });
+    }
+
+    const alergenosEnIngredientes = await Alergeno.find({ nombre: { $in: ingredientes } });
+
+    const ingredientesIds = alergenosEnIngredientes.map(alergeno => alergeno._id);
+
+    const nuevoProducto = new Producto({
+      nombre,
+      ingredientes: ingredientesIds,
+      marca,
+      codigo,
+      foto,
+    });
+
+    const alergenoCoincide = alergenosEnIngredientes.some(alergeno => ingredientes.includes(alergeno.nombre));
+
+    if (alergenoCoincide) {
+      nuevoProducto.alergenosPresentes = alergenosEnIngredientes.map(alergeno => alergeno.nombre);
+    }
+
+    const productoGuardado = await nuevoProducto.save();
+
+    const resultadoAdaptado = {
+      ...productoGuardado.toObject(),
+      ingredientes, 
+      alergenosPresentes: nuevoProducto.alergenosPresentes, 
+    };
+
+    return res.status(201).json(resultadoAdaptado);
   } catch (error) {
-    return res.status(500).json(error);
+    console.error('Error en cargarProducto:', error);
+    return res.status(500).json({ error: error.message });
   }
 };
+
+
+const getProduct = async (req, res) => {
+  try {
+    const productos = await Producto.find().populate('ingredientes');
+
+   
+    const productosAdaptados = productos.map(producto => ({
+      ...producto.toObject(),
+      ingredientes: producto.ingredientes.map(alergeno => alergeno.nombre), // Include all ingredient names in the response
+    }));
+
+    return res.status(200).json(productosAdaptados);
+  } catch (error) {
+    console.error('Error en obtenerProductos:', error);
+    return res.status(500).json({ error: error.message });
+  }
+};
+
+
 
 const getProductsByCode = async (req, res) => {
   try {
@@ -25,22 +84,8 @@ const getProductsByCode = async (req, res) => {
   }
 };
 
-const postProduct = async (req, res) => {  
-  try {
-      const body = req.body;  
-      const newProduct = new Producto (body); 
-      if(req.file.path){
-        newProduct.foto = req.file.path
-      }
-      const createdProduct = await newProduct.save();
 
-      return res.json(createdProduct);
-  } catch (error) {
-      return res.json(error);
-  }
-}
-
-const updateStudent = async (req, res) => {
+const putProduct = async (req, res) => {
   try {
       const {id} = req.params    
       const productBody = new Producto (req.body);
@@ -48,7 +93,7 @@ const updateStudent = async (req, res) => {
       const updateProduct= await Producto.findByIdAndUpdate(id, productBody, {new:true});  //necesita 2 param, el id del doc a modificar
       
       if(!updateProduct){
-          return res.status(404).json({message:"estudiante no existe"})
+          return res.status(404).json({message:"producto no existe"})
       }
       return res.status(200).json(updateProduct)
   } catch (error) {
@@ -69,5 +114,5 @@ const deleteProduct = async (req, res) => {
   }
 }
 
-module.exports = { getProducts, postProduct, updateStudent, deleteProduct, getProductsByCode};
+module.exports = { cargarProducto, getProduct, putProduct, deleteProduct, getProductsByCode};
 

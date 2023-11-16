@@ -1,13 +1,13 @@
-// const Alergeno = require("../models/product.models");
+const Alergeno = require("../models/alergenos.models");
 
-// const getAlergenos = async (req, res) => {
-//   try {
-//     const allAlergenos = await Alergeno.find();
-//     return res.status(200).json(allAlergenos);
-//   } catch (error) {
-//     return res.status(500).json(error);
-//   }
-// };
+const getAlergenos = async (req, res) => {
+  try {
+    const allAlergenos = await Alergeno.find();
+    return res.status(200).json(allAlergenos);
+  } catch (error) {
+    return res.status(500).json(error);
+  }
+};
 
 // const getAlergenosById = async (req, res) => {
 //     try {
@@ -25,16 +25,16 @@
 //     }
 //   };
   
-//   const postAlergenos = async (req, res) => {
-//     try {
-//       const newAlergeno = new Producto(req.body);
-//       const createdAlergeno = await newAlergeno.save();
-//       return res.status(201).json({ message: "Alergeno creado exitosamente", data: createdAlergeno });
-//     } catch (error) {
-//       console.error("Error al crear el Alergeno:", error);
-//       return res.status(500).json({ message: "Error interno del servidor al crear el Alergeno", error: error.message });
-//     }
-//   };
+  const postAlergenos = async (req, res) => {
+    try {
+      const newAlergeno = new Alergeno(req.body);
+      const createdAlergeno = await newAlergeno.save();
+      return res.status(201).json({ message: "Alergeno creado exitosamente", data: createdAlergeno });
+    } catch (error) {
+      console.error("Error al crear el Alergeno:", error);
+      return res.status(500).json({ message: "Error interno del servidor al crear el Alergeno", error: error.message });
+    }
+  };
 //   const putAlergenos = async (req, res) => {
 //     try {
 //       const { id } = req.params;
@@ -62,4 +62,4 @@
 //   }
 
 
-// module.exports = { getAlergenos, postAlergenos, putAlergenos, deleteAlergeno, getAlergenosById};
+module.exports = { getAlergenos, postAlergenos };

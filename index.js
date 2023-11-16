@@ -1,7 +1,7 @@
 const express = require("express");
 const { connectDb } = require("./src/utils/database");
 const productsRoutes = require("./src/api/routes/products.routes");
-// const alergenoRoutes = require("./src/api/routes/alergeno.routes");
+const alergenoRoutes = require("./src/api/routes/alergenos.routes");
 
 const env = require("dotenv")
 env.config()
@@ -20,7 +20,7 @@ cloudinary.config({
 
 
 app.use("/product", productsRoutes);
-
+app.use("/alergeno", alergenoRoutes);
 
 const PORT = 5053;
 
