@@ -6,16 +6,22 @@ const productoSchema = new Schema(
   {
     nombre: { type: String, required: true },
     codigo: { type: Number, required: true },
-    foto: { type: String, required: false },
-    ingredientes: [{type: String, required: true}],
-    marca: {type: String, required: true },
-    // alergenos: [{ type: Schema.Types.ObjectId, ref: 'alergeno' }],
+    foto: { type: String, default: "" },
+    ingredientes: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Alergeno",
+      }
+    ],
+    marca: { type: String, required: true },
+    alergico: { type: Boolean, default: false },
+    alergenosPresentes: [{ type: String }],  
   },
   {
-    timestamps: true, // te genera una fecha de creación y de modificación automaticas
+    timestamps: true,
   }
 );
 
-const Producto = mongoose.model("producto", productoSchema)
+const Producto = mongoose.model("Producto", productoSchema);
 
 module.exports = Producto;
