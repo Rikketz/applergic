@@ -1,5 +1,4 @@
 const mongoose = require("mongoose");
-
 const Schema = mongoose.Schema;
 
 const productoSchema = new Schema(
@@ -8,13 +7,9 @@ const productoSchema = new Schema(
     codigo: { type: Number, required: true },
     foto: { type: String, default: "" },
     ingredientes: [
-      {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Alergeno",
-      }
+      { type: String, required: true },
     ],
     marca: { type: String, required: true },
-    alergico: { type: Boolean, default: false },
     alergenosPresentes: [{ type: String }],  
   },
   {
