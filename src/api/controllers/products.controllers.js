@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 const Alergeno  = require('../models/alergenos.models');
 const Producto = require('../models/product.models');
 
-// Connect to MongoDB
-mongoose.connect('mongodb+srv://ceciliaarangio:ImD36nKx8JXs58L6@cluster0.4g316yu.mongodb.net/Applergic?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
-  .then(() => console.log('Connected to MongoDB'))
-  .catch(error => console.error('Error connecting to MongoDB:', error));
+
+// mongoose.connect('mongodb+srv://ceciliaarangio:ImD36nKx8JXs58L6@cluster0.4g316yu.mongodb.net/Applergic?retryWrites=true&w=majority', { useNewUrlParser: true, useUnifiedTopology: true })
+//   .then(() => console.log('Connected to MongoDB'))
+//   .catch(error => console.error('Error connecting to MongoDB:', error));
 
 const cargarProducto = async (req, res) => {
   try {
@@ -17,11 +17,9 @@ const cargarProducto = async (req, res) => {
 
     const alergenosEnIngredientes = await Alergeno.find({ nombre: { $in: ingredientes } });
 
-    const ingredientesIds = alergenosEnIngredientes.map(alergeno => alergeno._id);
-
     const nuevoProducto = new Producto({
       nombre,
-      ingredientes: ingredientesIds,
+      ingredientes,
       marca,
       codigo,
       foto,
@@ -52,11 +50,11 @@ const cargarProducto = async (req, res) => {
 const getProduct = async (req, res) => {
   try {
     const productos = await Producto.find().populate('ingredientes');
-
+    console.log(productos)
    
     const productosAdaptados = productos.map(producto => ({
       ...producto.toObject(),
-      ingredientes: producto.ingredientes.map(alergeno => alergeno.nombre), // Include all ingredient names in the response
+
     }));
 
     return res.status(200).json(productosAdaptados);
