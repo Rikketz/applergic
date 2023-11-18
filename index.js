@@ -1,5 +1,9 @@
 const express = require("express");
+<<<<<<< HEAD
 // const cors = require('cors');
+=======
+const cors = require("cors"); 
+>>>>>>> 04308c29b64ee92bb5d9b21499753bb268ec4111
 const { connectDb } = require("./src/utils/database");
 const productsRoutes = require("./src/api/routes/products.routes");
 const alergenoRoutes = require("./src/api/routes/alergenos.routes");
@@ -17,6 +21,8 @@ const cloudinary = require("cloudinary").v2
 
 const app = express() 
 app.use(express.json());
+
+app.use(cors());
 
 connectDb();
 
