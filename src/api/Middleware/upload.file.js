@@ -1,27 +1,16 @@
-const multer = require('multer');
-
-const cloudinary = require('cloudinary').v2;
-
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
-
-
+const multer = require("multer");
+const cloudinary = require("cloudinary").v2;
+const { CloudinaryStorage } = require("multer-storage-cloudinary");
 
 const storage = new CloudinaryStorage({
-
   cloudinary: cloudinary,
-
   params: {
-
-    folder: 'students',
-
-    allowedFormats: ['jpg', 'png', 'jpeg', 'webp', 'gif', 'svg'],
-
+    folder: "applergic-users",
+    allowedFormats: ["jpg", "png", "jpeg"],
   },
-
 });
 
+const upload = multer({ storage: storage });
 
-
-const upload = multer({ storage });
 
 module.exports = upload;
