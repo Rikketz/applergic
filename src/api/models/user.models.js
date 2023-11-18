@@ -9,6 +9,8 @@ const userSchema = new Schema({
     nombreCompleto: {type: String, required: true},
     direccion: {type: String, required: true},
     telefono: {type: Number, required: true},
+    foto: {type: String, default: ""},
+    alergia: [{type: Schema.Types.ObjectId, ref: "Alergeno", required: false}]
 },{
     collection: "user"
 });

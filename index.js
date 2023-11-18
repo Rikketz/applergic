@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors"); 
 const { connectDb } = require("./src/utils/database");
 const productsRoutes = require("./src/api/routes/products.routes");
 const alergenoRoutes = require("./src/api/routes/alergenos.routes");
@@ -10,6 +11,8 @@ env.config()
 const cloudinary = require("cloudinary").v2
 const app = express() 
 app.use(express.json());
+
+app.use(cors());
 
 connectDb();
 
