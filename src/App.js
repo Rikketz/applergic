@@ -15,8 +15,9 @@ function App() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Learn React
+          <generalButton text="Hola"></generalButton>
         </a>
+        
       </header>
     </div>
   );

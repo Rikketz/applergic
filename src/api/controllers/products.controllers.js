@@ -53,7 +53,6 @@ const getProduct = async (req, res) => {
   try {
     const productos = await Producto.find().populate('ingredientes');
 
-   
     const productosAdaptados = productos.map(producto => ({
       ...producto.toObject(),
       ingredientes: producto.ingredientes.map(alergeno => alergeno.nombre), // Include all ingredient names in the response
