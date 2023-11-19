@@ -25,7 +25,7 @@ cloudinary.config({
 
 app.use("/product", productsRoutes);
 app.use("/alergeno", alergenoRoutes);
-// app.use("/user", usersRoutes);
+app.use("/user", usersRoutes);
 
 const PORT = 5053;
 

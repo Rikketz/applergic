@@ -1,4 +1,3 @@
-
 const express = require("express");
 const {register, login, profile, registerEmergencyContact, updateUser} = require("../controllers/users.controllers");
 const router = express.Router()
@@ -10,5 +9,3 @@ router.post("/login" , login);
 router.put('/register-emergency-contact/:userId', registerEmergencyContact);
 
 module.exports = router;
-
-
