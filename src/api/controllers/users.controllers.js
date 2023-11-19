@@ -3,54 +3,28 @@ const bcrypt = require('bcrypt');
 const { validateEmailDB } = require('../../utils/validator');
 const { generarToken } = require('../../utils/jwt');
 const User = require('../models/user.models');
+const multer = require('multer');
 
 
-
-// const register = async (req, res) => {
-//   try {
-//     const { email, password, nombreCompleto, direccion, telefono } = req.body;
-
-//     if (!email || !password || !nombreCompleto || !direccion || !telefono) {
-//       return res.status(400).json({ success: false, message: "Todos los campos son requeridos" });
-//     }
-
-//     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-//     if (!emailRegex.test(email)) {
-//       return res.status(400).json({ success: false, message: "El formato del correo electrónico no es válido" });
-//     }
-
-//     if (password.length < 6) {
-//       return res.status(400).json({ success: false, message: "La contraseña debe tener al menos 6 caracteres" });
-//     }
-
-//     const hashedPassword = await bcrypt.hash(password, 10);
-
-//     const userBody = new User({
-//       email,
-//       password: hashedPassword,
-//       nombreCompleto,
-//       direccion,
-//       telefono,
-//     });
-
-//     const createdUser = await userBody.save();
-
-//     return res.status(201).json({ success: true, message: "Usuario registrado con éxito", data: createdUser });
-//   } catch (error) {
-//     console.error('Error en el registro:', error);
-//     return res.status(500).json({ success: false, message: "Error interno del servidor", error: error.message });
-//   }
-// };
+const storage = multer.memoryStorage();
+const upload = multer({ storage: storage });
 
 const register = async (req, res) => {
   try {
-    const { email, password, nombreCompleto, direccion, telefono } = req.body;
-
+    console.log('Received data:', req.body);
+    const { email, password, nombreCompleto, direccion, telefono , foto} = req.body;
+    console.log('Received Image:', req.file);
     // Verificar si se proporciona una foto como archivo
     let fotoUrl = '';
+    let cloudinaryImageUrl = ''; // Nueva variable para la URL de Cloudinary
+
+
+  
     if (req.file) {
-      const result = await cloudinary.uploader.upload(req.file.path);
-      fotoUrl = result.secure_url;
+      const cloudinaryResult = await cloudinary.uploader.upload(req.file.path);
+      cloudinaryImageUrl = cloudinaryResult.secure_url;
+      fotoUrl = cloudinaryImageUrl;
+      console.log('Cloudinary Image URL:', cloudinaryImageUrl);
     }
 
     // Verificar si se proporciona una foto como URL
@@ -80,6 +54,7 @@ const register = async (req, res) => {
       direccion,
       telefono,
       foto: fotoUrl,  // Guardar la URL de la foto
+      cloudinaryImage: cloudinaryImageUrl, // Guardar la URL de Cloudinary
     });
 
     const createdUser = await userBody.save();
@@ -90,6 +65,7 @@ const register = async (req, res) => {
     return res.status(500).json({ success: false, message: "Error interno del servidor", error: error.message });
   }
 };
+
 
 const login = async (req, res) => {
     try {
@@ -110,5 +86,5 @@ const login = async (req, res) => {
 }
 
 
-
+module.exports = upload;
 module.exports = {register, login}
