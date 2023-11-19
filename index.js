@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors"); 
 const { connectDb } = require("./src/utils/database");
 const productsRoutes = require("./src/api/routes/products.routes");
 const alergenoRoutes = require("./src/api/routes/alergenos.routes");
@@ -11,12 +12,14 @@ const cloudinary = require("cloudinary").v2
 const app = express() 
 app.use(express.json());
 
+app.use(cors());
+
 connectDb();
 
 cloudinary.config({ 
-  cloud_name: 'df7wwsyfn', 
-  api_key: '349872451519724', 
-  api_secret: 'U-sHimmqsnt-8upoDdkuHn9uZC4'
+  cloud_name: 'dqflkoory', 
+  api_key: '214474316218992', 
+  api_secret: 'qv-DtEM-373GNBmQVCgWjNWSJYw'
 });
 
 
