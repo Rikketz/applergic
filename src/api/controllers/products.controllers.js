@@ -50,8 +50,7 @@ const cargarProducto = async (req, res) => {
 const getProduct = async (req, res) => {
   try {
     const productos = await Producto.find().populate('ingredientes');
-    console.log(productos)
-   
+
     const productosAdaptados = productos.map(producto => ({
       ...producto.toObject(),
 

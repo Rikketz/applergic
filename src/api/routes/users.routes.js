@@ -1,4 +1,3 @@
-
 const express = require("express");
 const {register, login, profile, registerEmergencyContact, updateAlergias, getUserById} = require("../controllers/users.controllers");
 const router = express.Router()
@@ -11,5 +10,3 @@ router.put('/alergia/:userId', updateAlergias);
 router.get('/getuser/:userId', getUserById);
 
 module.exports = router;
-
-

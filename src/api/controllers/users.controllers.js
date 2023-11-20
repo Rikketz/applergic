@@ -35,12 +35,13 @@ const registerEmergencyContact = async (req, res) => {
 
 const updateAlergias = async (req, res) => {
   const { userId } = req.params;
-  const { alergenos } = req.body;
-  console.log("Alergenos recibidos en el backend:", alergenos);
+  const { alergia } = req.body;
+  console.log(alergia);
+  // console.log("Alergenos recibidos en el backend:", alergenos);
   try {
     const updatedUser = await User.findByIdAndUpdate(
       userId,
-      { $set: { alergia: alergenos } },
+      { $set: { alergia: alergia } },
       { new: true }
     );
 
