@@ -8,4 +8,4 @@ const generarToken = (id, email) => {
     return jwt.sign({id, email}, "lalalalalala", {expiresIn: '1h'})
 }
 
-module.exports = {verifyToken, generarToken }
+module.exports = { verifyToken, generarToken }

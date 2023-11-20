@@ -51,7 +51,7 @@ const updateAlergias = async (req, res) => {
     return res.status(200).json(updatedUser);
   } catch (error) {
     console.error("Error en la actualización de alergias:", error);
-    return res.status(500).json({
+        return res.status(500).json({
       success: false,
       message: "Error interno del servidor",
       error: error.message,
@@ -59,6 +59,30 @@ const updateAlergias = async (req, res) => {
   }
 };
 
+
+
+    
+const getUserById = async (req, res) => {
+  const { userId } = req.params;
+
+  try {
+    const user = await User.findById(userId);
+
+    if (!user) {
+      return res.status(404).json({ message: "Usuario no encontrado" });
+    }
+
+    return res.status(200).json({ user });
+  } catch (error) {
+    console.error("Error al obtener usuario por ID:", error);
+    return res.status(500).json({
+      success: false,
+      message: "Error interno del servidor",
+      error: error.message,
+    });
+  }
+};
+    
 const register = async (req, res) => {
 
   try {
@@ -155,4 +179,6 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login, registerEmergencyContact, updateAlergias };
+
+module.exports = { register, login, registerEmergencyContact, updateAlergias, getUserById };
+
