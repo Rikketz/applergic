@@ -17,9 +17,9 @@ app.use(cors());
 connectDb();
 
 cloudinary.config({ 
-  cloud_name: 'df7wwsyfn', 
-  api_key: '349872451519724', 
-  api_secret: 'U-sHimmqsnt-8upoDdkuHn9uZC4'
+  cloud_name: 'dqflkoory', 
+  api_key: '214474316218992', 
+  api_secret: 'qv-DtEM-373GNBmQVCgWjNWSJYw'
 });
 
 

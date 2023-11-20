@@ -12,7 +12,7 @@ const storage = new CloudinaryStorage({
 
   params: {
 
-    folder: 'students',
+    folder: 'applergic-users',
 
     allowedFormats: ['jpg', 'png', 'jpeg', 'webp', 'gif', 'svg'],
 
