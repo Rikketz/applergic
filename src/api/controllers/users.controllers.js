@@ -101,7 +101,7 @@ const register = async (req, res) => {
     });
 
     const createdUser = await userBody.save();
-
+    console.log(createdUser);
     const userId = createdUser._id;
 
     return res.status(201).json({
