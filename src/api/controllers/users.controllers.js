@@ -33,6 +33,35 @@ const registerEmergencyContact = async (req, res) => {
   }
 };
 
+const updateAlergias = async (req, res) => {
+  const { userId } = req.params;
+  const { alergenos } = req.body;
+  console.log("Alergenos recibidos en el backend:", alergenos);
+  try {
+    const updatedUser = await User.findByIdAndUpdate(
+      userId,
+      { $set: { alergia: alergenos } },
+      { new: true }
+    );
+
+    if (!updatedUser) {
+      return res.status(404).json({ message: "Este usuario no existe" });
+    }
+
+    return res.status(200).json(updatedUser);
+  } catch (error) {
+    console.error("Error en la actualización de alergias:", error);
+        return res.status(500).json({
+      success: false,
+      message: "Error interno del servidor",
+      error: error.message,
+    });
+  }
+};
+
+
+
+    
 const getUserById = async (req, res) => {
   const { userId } = req.params;
 
@@ -53,8 +82,9 @@ const getUserById = async (req, res) => {
     });
   }
 };
-
+    
 const register = async (req, res) => {
+
   try {
     const { email, password, nombreCompleto, direccion, telefono } = req.body;
 
@@ -98,6 +128,7 @@ const register = async (req, res) => {
       direccion,
       telefono,
       foto: fotoUrl,
+      alergia: req.body.alergenos || [],
     });
 
     const createdUser = await userBody.save();
@@ -118,6 +149,7 @@ const register = async (req, res) => {
     });
   }
 };
+
 
 const login = async (req, res) => {
   try {
@@ -147,4 +179,6 @@ const login = async (req, res) => {
   }
 };
 
-module.exports = { register, login, registerEmergencyContact, getUserById };
+
+module.exports = { register, login, registerEmergencyContact, updateAlergias, getUserById };
+

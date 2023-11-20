@@ -18,13 +18,14 @@ const userSchema = new Schema(
     },
 
     alergia: [
-      { type: Schema.Types.ObjectId, ref: "Alergeno", required: false },
+      { type: String, required: false },
     ],
   },
   {
     collection: "user",
   }
 );
+
 
 const User = mongoose.model("user", userSchema);
 
